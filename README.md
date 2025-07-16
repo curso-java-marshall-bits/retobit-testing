@@ -73,9 +73,10 @@ Ahora se va a crear un nuevo directorio con el nombre del retoBit.
 
 ### 3. ¡Ya puedes abrir este reto en IntelliJ!
 
-### Añade la dependencia de JUnit
 
-## Instrucciones
+# Instrucciones
+
+### Añade la dependencia de JUnit
 
 Como este es un proyecto Maven, necesitas añadir la dependencia de JUnit a tu archivo `pom.xml`.
 
