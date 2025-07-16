@@ -1,8 +1,5 @@
 import java.util.List;
 
-/**
- * Simple calculator class for basic mathematical operations
- */
 public class Calculator {
 
     public double add(double a, double b) {
