@@ -1,0 +1,28 @@
+name: Java CI con Maven
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to v4
+        uses: actions/checkout@v4 # Clone the code on a github actions environment
+
+      - name: JDK config
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin' # JDK dist
+          cache: maven
+
+      - name: Compile and execute tests
+        run: |
+          mvn -B package
