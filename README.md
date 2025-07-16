@@ -1,15 +1,38 @@
-# RetoBit: Repositorios JPA 👷‍♀️
+# RetoBit: Testing con JUnit 🧪
 
-En este RetoBit vamos a practicar el uso de JPA y JPQL para crear repositorios que nos permitan interactuar con una base de datos. Tu Tech Lead te ha puesto a cargo de los repositorios de la aplicación. 
+En este RetoBit vamos a practicar el testing en Java usando JUnit. 
+Nuestra empresa tiene un nuevo cliente que necesita una aplicación de gestión de estudiantes, el equipo de front ya ha empezado a desarrollar la interfaz y al equipo de back le toca implementar la lógica de negocio.
+Tu Tech Lead te ha asignado la parte de testing. El problema que tienen es que cada dos por tres se rompen cosas y no saben por qué. Quieren seguir añadiendo nuevas funcionalidades, pero necesitan asegurarse de que todo funciona correctamente antes de hacer cambios. Para eso necesitan los tests.
 
-No hay que preocuparse por la base de datos, ya que está todo planeado para generar una base de datos ficticia en memoria y no hace falta que la configures. 
+Tu trabajo es crear tests que verifiquen que las funcionalidades principales funcionan como se espera. No debes modificar nada de la app, solo añadir los tests necesarios.
 
 ## ¿Qué practicarás?
 
-- Creación de repositorios JPA
-- Métodos de consulta derivados de `JpaRepository`
-- JPQL (Java Persistence Query Language)
-- TDD (Test Driven Development)
+- Testing con JUnit 5
+- Assertions básicas
+- Casos de prueba (happy path y edge cases)
+- Organización de tests
+- Buenas prácticas en testing
+
+## Funcionalidades a testear
+
+La aplicación tiene las siguientes clases:
+
+### 🧑‍🎓 Clase `Student`
+- Gestión de datos básicos del estudiante (nombre, email, edad)
+- Validaciones de datos
+- Cálculo de promedio de calificaciones
+
+### ➕ Clase `Calculator`
+- Operaciones matemáticas básicas
+- Cálculos de estadísticas simples
+
+## Tu misión 🎯
+
+Debes crear tests unitarios para **todas** las funcionalidades de estas clases. Los tests deben cubrir:
+- Casos normales (happy path 😁)
+- Casos límite (edge cases 🫣)
+- Validaciones de errores 
 
 ## Fork del repositorio:
 
@@ -27,7 +50,7 @@ Ahora hay que descargarse el proyecto en tu computadora.
 
 ### 1. Asegúrate de que estás en la URL de TU copia del repositorio
 
-Si la URL es esta: https://github.com/curso-java-marshall-bits/retobit-repositories-JPA **NO ES CORRECTO**.
+Si la URL es esta: https://github.com/curso-java-marshall-bits/retobit-testing **NO ES CORRECTO**.
 
 Donde aparece 'curso-java-marshall-bits' debería aparecer tu nombre de usuario. Haz click en tu perfil y mira tus
 repositorios para comprobar si hiciste el fork. En caso contrario vuelve al paso anterior.
@@ -44,118 +67,116 @@ Utiliza el siguiente comando:
 git clone https://aqui.debes.pegar.la.url
 ```
 
-**Nota: Después del 'git clone' debes pegar la url del repositorio. No pongas la que he puesto yo en el ejemplo 🤣*
+**Nota: Después del 'git clone' debes pegar la url del repositorio. No pongas la que he puesto yo en el ejemplo 🤣**
 
 Ahora se va a crear un nuevo directorio con el nombre del retoBit.
 
 ### 3. ¡Ya puedes abrir este reto en IntelliJ!
 
-# Instrucciones
+### Añade la dependencia de JUnit
 
-Tenemos una app que está ya creada y configurada. Tu tarea es crear los repositorios necesarios para gestionar los usuarios y las publicaciones de la aplicación.
+## Instrucciones
 
-Tu manager te ha dado un ejemplo de cómo se ve la tabla en la base de datos real:
+Como este es un proyecto Maven, necesitas añadir la dependencia de JUnit a tu archivo `pom.xml`.
 
-### Usuarios
-| id | username              | email                           | password | created_at | is_active |
-|----|-----------------------|---------------------------------|----------|------------|-----------|
-| 1 | capitan_tortilla      | capitan.tortilla@superheros.dev | $2a$10$... | 2024-01-15 10:30:00 | true |
-| 2 | gazpacho_vengador | gazpacho@avengers.com           | $2a$10$... | 2024-01-16 14:20:00 | true |
-| 3 | super_churro          | churro.magico@gmail.com         | $2a$10$... | 2024-01-17 09:15:00 | false |
-| 4 | flamenquina_atomica   | flamenquis@atomiquis.net        | $2a$10$... | 2024-01-18 16:45:00 | true |
+Añade la siguiente dependencia dentro de la etiqueta `<dependencies>`:
 
-### Posts
-| id | title                                 | content                                               | created_at | updated_at | view_count | author_id | category |
-|----|---------------------------------------|-------------------------------------------------------|------------|------------|------------|-----------|----------|
-| 1 | Cómo hacer tortillas voladoras        | El Capitán Tortilla revela sus secretos culinarios... | 2024-01-20 09:00:00 | 2024-01-20 09:00:00 | 150 | 1 | TECHNOLOGY |
-| 2 | Receta del gazpacho de la justicia    | Una sopa fría que derrotará a tus enemigos...         | 2024-01-21 12:30:00 | 2024-01-21 15:20:00 | 75 | 2 | LIFESTYLE |
-| 3 | El poder oculto de los churros        | Descubre cómo los churros pueden salvar el mundo...   | 2024-01-22 14:15:00 | 2024-01-23 10:30:00 | 220 | 3 | TECHNOLOGY |
-| 4 | Flamenquines rellenos de queso vegano | La batalla que nunca habías imaginado                 | 2024-01-23 08:45:00 | 2024-01-23 08:45:00 | 45 | 4 | TRAVEL |
-
-Como la base de datos de este repo es ficticia, no es necesario que la configures. La aplicación ya está preparada para generar una base de datos en memoria utilizando H2 y JPA.
-
-## Tarea 1: Crea un package
-
-Genera el Package `repositories` dentro de `src/main/java/dev.marshall_bits.repositories`.
-
-![estructura de carpetas](public/repositories-structure.png)
-
-## Tarea 2: Crea los repositorios
-
-Dentro del package `repositories` crea los siguientes repositorios:
-
-- `UserRepository`: para gestionar los usuarios.
-- `PostRepository`: para gestionar las publicaciones.
-
-## Tarea 3: Implementa métodos de consulta findBy
-
-Para cada repositorio, implementa los siguientes métodos derivados de la interfaz `JpaRepository` que empiezan con
-`findBy`:
-
-- `UserRepository`:
-    - Método para buscar un usuario por su nombre de usuario.
-    - Método para buscar un usuario por su correo electrónico.
-
-<details>
-<summary>Pista 🕵️‍♀️</summary>
-Para implementar estos métodos, utiliza la convención de nomenclatura de Spring Data JPA. Por ejemplo, para buscar un coche por su marca, el método podría llamarse `findByBrand(String brand)`.
-</details>
-
-- `PostRepository`:
-    - Método para buscar una publicación por su título.
-    - Método para buscar publicaciones por categoría, devuelve una lista de posts. **Ten en cuenta que la categoría es un ENUM*.
-
-<details>
-<summary>Pista 🕵️‍♀️</summary>
-Puedes utilizar como argumento cualquier tipo de dato, ya sea String, Integer o Enum.
-</details>
-
-## Tarea 4: Implementa consultas JPQL
-Para cada repositorio, implementa los siguientes métodos utilizando JPQL. A pesar de que algunos se pueden implementar con consultas derivadas, vamos a hacerlo con JPQL para practicar.
-Puedes ayudarte con una IA usando el siguiente prompt:
-
-```text
-Crea un método en un repositorio de Spring Data JPA que utilice JPQL para realizar una consulta compleja. El método debe devolver una lista de objetos que cumplan con ciertos criterios.
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.11.2</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
 ```
-Trata de que la IA no te dé el código completo, sino que te ayude a entender cómo hacer la consulta.
 
-Métodos a implementar:
- 
-- `PostRepository`:
-    - Método para obtener una lista de posts que tengan más de 100 vistas. Llámalo `findPostsWithMoreThan100Views()`.
-    - Método para obtener una lista de publicaciones ordenadas por fecha de creación, desde la más reciente a la más antigua. Llámalo `findAllByCreatedAt()`.
-    - Método para obtener una lista de publicaciones que contengan una palabra clave en su título. Llámalo `findByTitleContaining(String keyword)`. 
+Después de añadir la dependencia, **recarga el proyecto Maven** haciendo click en el botón de refresh de Maven en IntelliJ o ejecutando:
 
-## Testing
+```commandline
+mvn clean compile
+```
 
-Para comprobar si has realizado bien el ejercicio ejecuta los tests. Pulsa con el botón derecho en el directorio *
-**src/test/java** seleccionando la opción 'Run all tests'. También puedes ejecutar los tests para cada tarea seleccionando el archivo específico.
+### Tarea 1: Explora las clases existentes
 
-- **src/test/java/Task2RepositoryCreationTest**: para comprobar que has creado los repositorios correctamente.
-- **src/test/java/Task3FindByMethodsTest**: para comprobar que has implementado correctamente los métodos de consulta derivados de `JpaRepository`.
-- **src/test/java/Task4JPQLQueriesTest**: para comprobar que has implementado correctamente las consultas JPQL.
+Examina las tres clases que ya están creadas:
+- `Student.java` - Contiene información del estudiante y gestión de calificaciones
+- `Calculator.java` - Contiene operaciones matemáticas básicas
 
-El test te indicará si has pasado con un tick verde ✅. En caso contrario verás el error.
+### Tarea 2: Crea tus clases de test
 
-Ejemplo:
+Crea las clases de test en la carpeta `src/test/java`:
+- `StudentTest.java` - Para testear la clase Student
+- `CalculatorTest.java` - Para testear la clase Calculator
 
-![img.png](public/img3.png)
+### Tarea 3: Escribe tests completos
 
-Pulsa en cualquiera de los tests que has fallado y mira el mensaje de la derecha.
+Hay algunas assertions que posiblemente no habrás visto antes (qué malo soy eh 🙈). Para ello te dejo la [documentación oficial de JUnit 5](https://docs.junit.org/5.8.1/api/org.junit.jupiter.api/org/junit/jupiter/api/Assertions.html)
 
-- *Expected*: es el valor que el test estaba esperando.
-- *Actual*: es el valor que tu reto está retornando.
+Para cada clase, escribe tests que cubran:
 
-## Solución
+#### Tests de Calculator 
+- Testea operaciones básicas: sumar, restar, multiplicar, dividir
+- Testea división por cero (debe lanzar excepción). 🕵️‍♀️ Deberás usar `assertThrows()`.
+- Testea casos límite como números negativos
+- Testea funciones estadísticas con listas vacías
 
-Si quieres ver una posible solución para el retoBit que pasa todos los tests puedes mirar la rama *solution* dentro del
-repositorio.
+#### Tests de Student
+- Testea constructor y getters/setters
+- Testea validaciones de datos (nombre vacío, email inválido, edad inválida)
+- Testea gestión de calificaciones (agregar calificaciones, calcular promedio)
+- Testea cálculo de estado académico
 
-![rama solution](public/img4.png)
+### Estructura de ejemplo de test
 
-Ten en cuenta que hay muchas formas de resolver los ejercicios y la tuya puede pasar los tests iguales, pero ser
-completamente distinta a la solución. No significa que la tuya esté mal. Compara los resultados y decide cuál te gusta
-más o te parece más legible.
+Aquí tienes un ejemplo de cómo debería verse tu clase de test:
+
+```java
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
+
+class CalculatorTest {
+    
+    private Calculator calculator;
+    
+    @BeforeEach
+    void setUp() {
+        calculator = new Calculator();
+    }
+    
+    @Test
+    @DisplayName("Suma de números positivos")
+    void testAdd() {
+        // inicialización de variables
+        double a = 5.0;
+        double b = 3.0;
+        
+        // acción: llamar al método add
+        double result = calculator.add(a, b);
+        
+        // assertion: verificar el resultado (esta es la parte más importante)
+        assertEquals(8.0, result);
+    }
+  
+}
+```
+
+### Consejos para testing:
+
+1. **Usa nombres descriptivos de tests**: `testAddPositiveNumbers()`, `testDivideByZeroThrowsException()`
+2. **Testea tanto escenarios positivos como negativos**
+3. **Usa assertions apropiadas**: `assertEquals()`, `assertTrue()`, `assertThrows()`, etc.
+4. **Testea casos límite**: valores vacíos, valores nulos, condiciones de frontera
+
+## Ejecutar Tests
+
+Para ejecutar tus tests:
+1. Haz click derecho en la carpeta `src/test/java` en IntelliJ
+2. Selecciona "Run All Tests" o ejecuta clases de test individuales haciendo click derecho en ellas
+
+¡Todos los tests deberían pasar cuando los hayas implementado correctamente!
 
 ## Entrega
 
@@ -170,7 +191,7 @@ git add .
 2. Haz el commit con el mensaje
 
 ````commandline
-git commit -m "retobit finalizado"
+git commit -m "retobit completado"
 ````
 
 3. Haz un push
