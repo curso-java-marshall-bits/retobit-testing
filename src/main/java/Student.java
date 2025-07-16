@@ -85,4 +85,14 @@ public class Student {
             return "Needs improvement";
         }
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", grades=" + grades +
+                '}';
+    }
 }
