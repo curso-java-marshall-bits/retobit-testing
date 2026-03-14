@@ -95,4 +95,14 @@ public class Student {
                 ", grades=" + grades +
                 '}';
     }
+
+    public static void main(String[] args) {
+        var s = new Student("Jesús", "correo@prueba.com", 30);
+
+        s.addGrade(10.0);
+
+        System.out.println(s.getAcademicStatus());
+
+
+    }
 }
