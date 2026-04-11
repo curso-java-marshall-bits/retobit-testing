@@ -88,9 +88,17 @@ class StudentTest {
 
     @Test
     @DisplayName("verificacion nota rango correcto")
-    void testValidGrade(){
+    void testValidNegativeGrade(){
         assertThrows(IllegalArgumentException.class, () -> {
             student.addGrade(-1.0);
+        });
+    }
+
+    @Test
+    @DisplayName("verificacion nota rango correcto")
+    void testValidGrade(){
+        assertThrows(IllegalArgumentException.class, () -> {
+            student.addGrade(11.0);
         });
     }
 
