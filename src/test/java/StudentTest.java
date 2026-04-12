@@ -96,7 +96,7 @@ class StudentTest {
 
     @Test
     @DisplayName("verificacion nota rango correcto")
-    void testValidGrade(){
+    void testGradeExceedsMax(){
         assertThrows(IllegalArgumentException.class, () -> {
             student.addGrade(11.0);
         });
